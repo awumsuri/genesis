@@ -2,6 +2,7 @@ import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table'
 import React, { PureComponent } from 'react'
 import Menu from './Menu'
 import parser from '../helpers/csvParser'
+import Page from './Page'
 
 class Chart extends PureComponent {
 
@@ -9,12 +10,17 @@ class Chart extends PureComponent {
         super()
         this.currentIndex = 1
         this.page = 1;
+        this.onClickPage = this.onClickPage
     }
     
     state = {
         dataProvider: undefined,
         currentIndex: 1,
         pageSize: 25
+    }
+
+    onClickPage(event) {
+        console.log(event.target.name)
     }
 
     showPage(data) {
@@ -66,6 +72,7 @@ class Chart extends PureComponent {
                         )
                     }
                 </BootstrapTable>
+                <Page onClick={this.onClickPage} />
             </div>
         );
     }

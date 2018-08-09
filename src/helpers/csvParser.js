@@ -1,5 +1,5 @@
 export const parseCSV = (rawData) => {
-    const seperateData = rawData.replace("\r","").split("\n")
+    const seperateData = rawData.split("\r\n")
     const headings = seperateData[0].split(",")
 
     return seperateData.map((data, dataIndex) => {
