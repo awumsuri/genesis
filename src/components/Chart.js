@@ -8,14 +8,17 @@ class Chart extends PureComponent {
 
     constructor() {
         super()
+
         this.currentIndex = 1
         this.page = 1;
         this.data = []
         this.onClickPage = this.onClickPage.bind(this)
         this.onDataProviderChange = this.onDataProviderChange.bind(this)
         this.onPageSizeChange = this.onPageSizeChange.bind(this)
+        this.onSort = this.onSort.bind(this)
         this.pageSize = 15
-        this.cache = new Map()        
+        this.cache = new Map()
+        this.filters = []     
     }
     
     state = {
@@ -35,6 +38,8 @@ class Chart extends PureComponent {
             case "1":
                 this.loadData("people.csv")
                 break
+            default: 
+                break;
         }
     }
 
@@ -47,13 +52,41 @@ class Chart extends PureComponent {
             case "Back":
                 pageCheck = currentIndex - pageSize
                 this.currentIndex = pageCheck > 0 ? pageCheck : 1
-            break;                
+                break                
             case "Forward":
                 pageCheck = currentIndex + pageSize
                 this.currentIndex = pageCheck > data.length-1 ? currentIndex : pageCheck 
-            break;                
+                break
+            default:
+                break                
         }
 
+        this.showPage()
+    }
+
+    onSort(event) {
+        const sortField = event
+        const testField = this.data[1][sortField]
+
+        if (typeof testField === "string") {
+            this.data.sort((a, b) => {
+                if (a[sortField].toLowerCase() < b[sortField].toLowerCase()) 
+                    return -1
+                if (a[sortField].toLowerCase() > b[sortField].toLowerCase())
+                    return 1
+                return 0
+            })            
+        } else {
+            this.data.sort((a, b) => {
+                if (a[sortField] < b[sortField])
+                    return -1
+                if (a[sortField]> b[sortField])
+                    return 1
+                return 0
+            })
+        }
+        
+        this.currentIndex = 1
         this.showPage()
     }
 
@@ -95,18 +128,20 @@ class Chart extends PureComponent {
 
     render() {
         const { dataProvider } = this.state
-        const template = dataProvider ? Object.keys(dataProvider[0]).filter(key => key !== "id") : []
+        const headers = dataProvider ? Object.keys(dataProvider[0]).filter(key => key !== "id") : []
 
         return (
             <div>
                 <Menu 
                     onDataProviderChange={this.onDataProviderChange} 
                     onPageSizeChange={this.onPageSizeChange}
+                    onSort={this.onSort}
+                    headings={[...headers, "id"]}
                 />
                 <BootstrapTable data={dataProvider} stripe hover>
                     <TableHeaderColumn isKey width="70" dataField="id">ID</TableHeaderColumn>
                     {
-                        template.map(
+                        headers.map(
                             (data) => 
                             <TableHeaderColumn dataField={data}>
                                 {data.toUpperCase()}
