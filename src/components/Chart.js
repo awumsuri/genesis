@@ -3,6 +3,7 @@ import React, { PureComponent } from 'react'
 import Menu from './Menu'
 import parser from '../helpers/csvParser'
 import Page from './Page'
+import Filter from '../helpers/filters'
 
 class Chart extends PureComponent {
 
@@ -65,26 +66,12 @@ class Chart extends PureComponent {
     }
 
     onSort(event) {
-        const sortField = event
-        const testField = this.data[1][sortField]
+        this.sortField = event
+        const testField = this.data[1][this.sortField]
+        const sortFunction = (typeof testField === "string") ? 
+                                Filter.filterString.bind(this) : Filter.filter.bind(this)
 
-        if (typeof testField === "string") {
-            this.data.sort((a, b) => {
-                if (a[sortField].toLowerCase() < b[sortField].toLowerCase()) 
-                    return -1
-                if (a[sortField].toLowerCase() > b[sortField].toLowerCase())
-                    return 1
-                return 0
-            })            
-        } else {
-            this.data.sort((a, b) => {
-                if (a[sortField] < b[sortField])
-                    return -1
-                if (a[sortField]> b[sortField])
-                    return 1
-                return 0
-            })
-        }
+        this.data.sort(sortFunction)
         
         this.currentIndex = 1
         this.showPage()
