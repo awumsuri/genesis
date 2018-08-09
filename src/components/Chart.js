@@ -10,31 +10,46 @@ class Chart extends PureComponent {
         super()
         this.currentIndex = 1
         this.page = 1;
-        this.onClickPage = this.onClickPage
+        this.data = []
+        this.onClickPage = this.onClickPage.bind(this)
     }
     
     state = {
         dataProvider: undefined,
-        currentIndex: 1,
-        pageSize: 25
+        pageSize: 15
     }
 
     onClickPage(event) {
-        console.log(event.target.name)
+        const { name } = event.target
+        const { pageSize } = this.state
+        let pageCheck = 0;
+
+        switch(name) {
+            case "Back":
+                pageCheck = this.currentIndex - pageSize
+                this.currentIndex = pageCheck > 0 ? pageCheck : 1
+            break;                
+            case "Forward":
+                pageCheck = this.currentIndex + pageSize
+                this.currentIndex = pageCheck > this.data.length-1 ? this.currentIndex : pageCheck 
+            break;                
+        }
+
+        this.showPage()
     }
 
-    showPage(data) {
-        const { currentIndex, pageSize } = this.state
+    showPage() {
+        const { pageSize } = this.state
 
         this.setState({
-            dataProvider: data.slice(currentIndex, currentIndex + pageSize)
+            dataProvider: this.data.slice(this.currentIndex, this.currentIndex + pageSize)
         })
     }
 
     parseData(rawData) {
-        const data = parser.parseCSV(rawData)
+        this.data = parser.parseCSV(rawData)
 
-        this.showPage(data)
+        this.showPage()
     }
 
     loadData(url) {
@@ -51,7 +66,7 @@ class Chart extends PureComponent {
     }
 
     componentDidMount() {
-        this.loadData('numbers.csv')       
+        this.loadData('people.csv')       
     }
 
     render() {

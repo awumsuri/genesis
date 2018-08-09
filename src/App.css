@@ -21,3 +21,25 @@
 .App-intro {
   font-size: large;
 }
+
+.page-btn {
+  display: flex;
+  justify-content: space-between;
+}
+
+.page-btn Button {
+  width: 70px;
+  margin: 5px;
+}
+
+Glyphicon {
+  pointer-events: none;
+}
+
+.menu {
+  margin: 5px;
+}
+
+.table {
+  margin: 5px;
+}
