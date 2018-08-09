@@ -9,7 +9,7 @@ const Menu = (props) => (
             name="Filters"
             className="filters"
             placeholder="Filters"
-            options={options}
+            options={props.options}
         >
             
         </Select>
@@ -19,12 +19,11 @@ const Menu = (props) => (
             onSelect={e => props.onPageSizeChange(e)}
             id="PageSize"
         >
-            <MenuItem eventKey="15">15</MenuItem>
-            <MenuItem eventKey="30">30</MenuItem>
-            <MenuItem eventKey="60">60</MenuItem>
-            <MenuItem eventKey="75">75</MenuItem>
-            <MenuItem eventKey="90">90</MenuItem>
-            <MenuItem eventKey="120">120</MenuItem>
+        {
+            [15, 30, 60, 75, 90, 120].map(
+                (sort) => <MenuItem eventKey={sort}>{sort}</MenuItem>
+            )
+        }
         </SplitButton>
 
         <SplitButton 
