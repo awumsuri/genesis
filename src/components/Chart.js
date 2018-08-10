@@ -5,6 +5,7 @@ import parser from '../helpers/csvParser'
 import Page from './Page'
 import Sort from '../helpers/sort'
 import Filter from '../helpers/filter'
+import { Status } from './Status';
 
 class Chart extends PureComponent {
 
@@ -13,38 +14,45 @@ class Chart extends PureComponent {
 
         this.currentIndex = 1 //record index
         this.data = undefined //reference to full document in memory
+        this.headings = []
 
         /* Event Handlers */
         this.onClickPageNav = this.onClickPageNav.bind(this)
         this.onDataProviderChange = this.onDataProviderChange.bind(this)
         this.onPageSizeChange = this.onPageSizeChange.bind(this)
         this.onFilterChange = this.onFilterChange.bind(this)
-
-
         this.onSort = this.onSort.bind(this)
+        
         this.pageSize = 15
         this.cache = new Map()
         this.filtersOptions = {
             string: [],
-            number: [
-                {value:"record.age > 40", label:"seniors"}, 
-                { value:"record.float > 0", label: "float > 0"}
+            number: [ 
+                {value: "1", label:"seniors"}, 
+                {value: "2", label: "positive float"},
+                {value: "3", label: "high debt"}
             ]
-        }           
+        }  
+        this.menu = React.createRef()         
     }
     
     state = {
         dataProvider: undefined,
     }
 
-    onFilterChange(filters) {
-        this.data = this.cache.get(this.currentKey)        
-        const filteredData = filters.map(filter => 
-            this.data.filter(record => Filter(filter.label)(record)
-        )) 
+    onFilterChange(filters) {        
+        this.resetChart()
 
-        this.data = filteredData[0]
-        this.currentIndex = 1
+        if(filters.length === 0) {
+            this.showPage()
+            return 
+        }
+
+        this.data = filters.reduce((accum, filter) => {
+            accum = this.data.filter(record => Filter(filter.label)(record))
+            this.data = accum
+            return accum
+        }, []) 
 
         this.showPage()
     }
@@ -65,6 +73,7 @@ class Chart extends PureComponent {
             default: 
                 break;
         }
+        this.menu.current.select.current.select.clearValue()
     }
 
     onClickPageNav(event) {
@@ -93,18 +102,19 @@ class Chart extends PureComponent {
         const sortFunction = (this.sortField !== "id" && this.type === "string") ? 
                                 Sort.sortString.bind(this) : Sort.sortNumber.bind(this)
 
-        this.data.sort(sortFunction)
-        
+        this.data.sort(sortFunction)        
         this.currentIndex = 1
         this.showPage()
-    }
-
-   
+    }   
 
     parseData(url, rawData) {
-        this.data = parser.parseCSV(rawData)
+        const parseDataObject = parser.parseCSV(rawData)
+
+        this.data = parseDataObject.parsedData
+        this.headings = parseDataObject.headings
+        this.type = parseDataObject.type
         this.currentKey = url
-        this.cache.set(url, this.data)
+        this.cache.set(url, parseDataObject)
         this.showPage()
     }
 
@@ -114,7 +124,8 @@ class Chart extends PureComponent {
         })
 
         if (this.cache.has(url)) {
-            this.data = this.cache.get(url)
+            this.currentKey = url
+            this.resetChart()
             this.showPage()
             return
         }
@@ -131,12 +142,12 @@ class Chart extends PureComponent {
         this.loadData('people.csv')       
     }
 
-    getType(dataProvider, headers) {
-        return dataProvider ? ( Number.isNaN(parseInt(dataProvider[1][headers[0]], 10)) )  ? "string" : "number" : "string"
-    }
-
-    getHeaders() {
-        return this.data ? Object.keys(this.data[0]).filter(key => key !== "id") : []
+    resetChart() {
+        const { parsedData, headings, type } = this.cache.get(this.currentKey)
+        this.currentIndex = 1;
+        this.data = parsedData
+        this.headings = headings
+        this.type = type
     }
 
     showPage() {
@@ -147,26 +158,28 @@ class Chart extends PureComponent {
 
     render() {
         const { dataProvider } = this.state
-        const headers = this.getHeaders(dataProvider)
-        this.type = this.getType(dataProvider, headers)
+        this.type = this.currentKey ? this.cache.get(this.currentKey).type : "string"
 
         return (
             <div>
                 <Menu 
+                    ref={this.menu}
                     onDataProviderChange={this.onDataProviderChange} 
                     onPageSizeChange={this.onPageSizeChange}
                     onSort={this.onSort}
-                    headings={[...headers, "id"]}
+                    headings={[...this.headings, "id"]}
                     options={this.filtersOptions[this.type]}
-                    onFilterChange={this.onFilterChange}
+                    onFilterChange={this.onFilterChange                    
+                }
                 />
+                <Status dataProvider={dataProvider} />
                 <BootstrapTable data={dataProvider} stripe hover>
                     <TableHeaderColumn 
                         isKey width="70" 
                         dataField="id">ID
                     </TableHeaderColumn>
                     {
-                        headers.map(
+                        this.headings.map(
                             (data) => 
                             <TableHeaderColumn dataField={data}>
                                 {data.toUpperCase()}
