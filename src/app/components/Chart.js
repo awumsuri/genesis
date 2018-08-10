@@ -12,6 +12,9 @@ class Chart extends PureComponent {
     constructor() {
         super()
 
+        /* Initial Values */
+        this.pageSize = 15
+        this.currentKey = "people.csv"
         this.currentIndex = 1 //record index
         this.data = undefined //reference to full document in memory
         this.headings = []
@@ -23,11 +26,12 @@ class Chart extends PureComponent {
         this.onFilterChange = this.onFilterChange.bind(this)
         this.onSort = this.onSort.bind(this)
         this.onSearch = this.onSearch.bind(this)
-        this.onClearSearch = this.onClearSearch.bind(this)
+        this.onClearSearch = this.onClearSearch.bind(this)        
         
-        this.pageSize = 15
-        
+        /* Data Cache */
         this.cache = new Map()
+
+        /* Filter Optoins for Different types */
         this.filtersOptions = {
             string: [
                 {value: "1", label:"A - M"}, 
@@ -40,6 +44,8 @@ class Chart extends PureComponent {
                 {value: "3", label: "high debt"}
             ]
         }  
+
+        /* Menu ref ( Would have used redux to avoid this) */
         this.menu = React.createRef()         
     }
     
@@ -160,7 +166,7 @@ class Chart extends PureComponent {
     }
 
     componentDidMount() {
-        this.loadData('people.csv')       
+        this.loadData(this.currentKey)       
     }
 
     resetChart() {
@@ -180,7 +186,7 @@ class Chart extends PureComponent {
 
     render() {
         const { dataProvider } = this.state
-        this.type = this.currentKey ? this.cache.get(this.currentKey).type : "string"
+        this.type = dataProvider ? this.cache.get(this.currentKey).type : "string"
 
         return (
             <div>
