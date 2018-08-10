@@ -5,7 +5,7 @@ import parser from '../helpers/csvParser'
 import Page from './Page'
 import Sort from '../helpers/sort'
 import Filter from '../helpers/filter'
-import { Status } from './Status';
+import Status from './Status';
 
 class Chart extends PureComponent {
 
@@ -26,7 +26,11 @@ class Chart extends PureComponent {
         this.pageSize = 15
         this.cache = new Map()
         this.filtersOptions = {
-            string: [],
+            string: [
+                {value: "1", label:"A - M"}, 
+                {value: "2", label: "N - Z"},
+                {value: "3", label: "US Only"}
+            ],
             number: [ 
                 {value: "1", label:"seniors"}, 
                 {value: "2", label: "positive float"},
@@ -104,6 +108,7 @@ class Chart extends PureComponent {
 
         this.data.sort(sortFunction)        
         this.currentIndex = 1
+
         this.showPage()
     }   
 
@@ -115,6 +120,7 @@ class Chart extends PureComponent {
         this.type = parseDataObject.type
         this.currentKey = url
         this.cache.set(url, parseDataObject)
+
         this.showPage()
     }
 

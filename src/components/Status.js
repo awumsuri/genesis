@@ -1,7 +1,15 @@
-import React from 'react'
+import React, { PureComponent } from 'react'
 
-export const Status = (props) => (
-    <div className="status">
+class Status extends PureComponent {
 
-    </div>
-)
+    render() {
+        return (
+            <div className="status">
+
+            </div>
+       )
+
+    }
+}
+
+export default Status
