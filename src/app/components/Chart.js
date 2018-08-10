@@ -15,7 +15,7 @@ class Chart extends PureComponent {
         /* Initial Values */
         this.pageSize = 15
         this.currentKey = "people.csv"
-        this.currentIndex = 1 //record index
+        this.currentIndex = 0 //record index
         this.data = undefined //reference to full document in memory
         this.headings = []
 
@@ -44,7 +44,7 @@ class Chart extends PureComponent {
                 {value: "3", label: "high debt"}
             ]
         }
-        
+
         /* Menu ref ( Would have used redux to avoid this) */
         this.menu = React.createRef()         
     }
@@ -129,7 +129,7 @@ class Chart extends PureComponent {
                                 Sort.sortString.bind(this) : Sort.sortNumber.bind(this)
 
         this.data.sort(sortFunction)        
-        this.currentIndex = 1
+        this.currentIndex = 0
 
         this.showPage()
     }   
@@ -172,7 +172,7 @@ class Chart extends PureComponent {
     resetChart() {
         const { parsedData, headings, type } = this.cache.get(this.currentKey)
 
-        this.currentIndex = 1;
+        this.currentIndex = 0;
         this.data = parsedData
         this.headings = headings
         this.type = type

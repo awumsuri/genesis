@@ -42,3 +42,9 @@
   display: block;
   text-align: center;
 }
+
+.displayed-records {
+  font-size: 15px;
+  font-weight: bold;
+  
+}
