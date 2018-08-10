@@ -114,10 +114,11 @@ class Chart extends PureComponent {
 
     parseData(url, rawData) {
         const parseDataObject = parser.parseCSV(rawData)
+        const { parsedData, headings, type } = parseDataObject
 
-        this.data = parseDataObject.parsedData
-        this.headings = parseDataObject.headings
-        this.type = parseDataObject.type
+        this.data = parsedData
+        this.headings = headings
+        this.type = type
         this.currentKey = url
         this.cache.set(url, parseDataObject)
 
@@ -125,10 +126,8 @@ class Chart extends PureComponent {
     }
 
     loadData(url) {
-        const headers = new Headers({
-            "Content-Type": "text/csv"
-        })
-
+        const headers = new Headers({ "Content-Type": "text/csv" })
+        
         if (this.cache.has(url)) {
             this.currentKey = url
             this.resetChart()
@@ -150,6 +149,7 @@ class Chart extends PureComponent {
 
     resetChart() {
         const { parsedData, headings, type } = this.cache.get(this.currentKey)
+
         this.currentIndex = 1;
         this.data = parsedData
         this.headings = headings

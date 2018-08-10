@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Chart from './components/Chart'
+import Chart from './app/components/Chart'
 import './App.css';
 
 class App extends Component {
