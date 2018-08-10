@@ -1,14 +1,11 @@
 import React, { PureComponent } from 'react'
 
 class Status extends PureComponent {
-
     render() {
-        return (
+        return(
             <div className="status">
-
             </div>
-       )
-
+        )
     }
 }
 

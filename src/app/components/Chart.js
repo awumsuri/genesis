@@ -22,6 +22,8 @@ class Chart extends PureComponent {
         this.onPageSizeChange = this.onPageSizeChange.bind(this)
         this.onFilterChange = this.onFilterChange.bind(this)
         this.onSort = this.onSort.bind(this)
+        this.onSearch = this.onSearch.bind(this)
+        this.onClearSearch = this.onClearSearch.bind(this)
         
         this.pageSize = 15
         this.cache = new Map()
@@ -42,6 +44,19 @@ class Chart extends PureComponent {
     
     state = {
         dataProvider: undefined,
+    }
+
+    onSearch(searchTerm) {
+        if (searchTerm.length < 3) return
+
+        searchTerm = searchTerm.toLowerCase()
+        this.data = this.data.filter(record => Filter("SearchTerm")(record, searchTerm))
+        this.showPage()             
+    }
+    
+    onClearSearch() {
+        this.resetChart()
+        this.showPage()
     }
 
     onFilterChange(filters) {        
@@ -127,7 +142,7 @@ class Chart extends PureComponent {
 
     loadData(url) {
         const headers = new Headers({ "Content-Type": "text/csv" })
-        
+
         if (this.cache.has(url)) {
             this.currentKey = url
             this.resetChart()
@@ -175,8 +190,10 @@ class Chart extends PureComponent {
                     onSort={this.onSort}
                     headings={[...this.headings, "id"]}
                     options={this.filtersOptions[this.type]}
-                    onFilterChange={this.onFilterChange                    
-                }
+                    onFilterChange={this.onFilterChange}
+                    onSearch={this.onSearch}
+                    onClearSearch={this.onClearSearch}
+                    type={this.type}
                 />
                 <Status dataProvider={dataProvider} />
                 <BootstrapTable data={dataProvider} stripe hover>

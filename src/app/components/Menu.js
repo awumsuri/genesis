@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import { SplitButton, MenuItem } from 'react-bootstrap'
 import Select from 'react-select'
+import Find from './Find'
 
 class Menu extends PureComponent {
 
@@ -60,6 +61,14 @@ class Menu extends PureComponent {
                 onChange={props.onFilterChange}
                 ref={this.select}
             />
+            {
+            props.type === "string" && 
+            <Find 
+                className="find" 
+                onSearch={props.onSearch}
+                onClearSearch={props.onClearSearch}
+            />
+            }
         </div>)
 
     }
