@@ -186,7 +186,6 @@ class Chart extends PureComponent {
 
     render() {
         const { dataProvider } = this.state
-        //this.type = dataProvider ? this.cache.get(this.currentKey).type : "string"
 
         return (
             <div>
