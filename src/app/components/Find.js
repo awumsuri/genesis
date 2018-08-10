@@ -29,7 +29,7 @@ class Find extends PureComponent {
                     <FormControl
                         type="text"
                         value={this.state.value}
-                        placeholder="Search for First and/or Last"
+                        placeholder="Search All Fields"
                         onChange={this.onChange.bind(this)}
                         onKeyPress={this.onEnterHandler.bind(this)}
                      >

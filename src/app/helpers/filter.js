@@ -17,8 +17,10 @@ function filters (filter) {
                 
                 const first = record.first.toLowerCase().indexOf(searchTerm) !== -1
                 const second = record.last.toLowerCase().indexOf(searchTerm) !== -1
+                const city = record.city.toLowerCase().indexOf(searchTerm) !== -1
+                const country = record.country.toLowerCase().indexOf(searchTerm) !== -1
 
-                return first  || second 
+                return first  || second || city || country
             }
         default:
             return record => true

@@ -26,6 +26,7 @@ class Chart extends PureComponent {
         this.onClearSearch = this.onClearSearch.bind(this)
         
         this.pageSize = 15
+        
         this.cache = new Map()
         this.filtersOptions = {
             string: [
@@ -195,7 +196,14 @@ class Chart extends PureComponent {
                     onClearSearch={this.onClearSearch}
                     type={this.type}
                 />
-                <Status dataProvider={dataProvider} />
+                {this.data && 
+                <Status 
+                    dataProvider={dataProvider} 
+                    pages={this.data.length}
+                    pageSize={this.pageSize}
+                    records={this.currentIndex}
+                />
+                }
                 <BootstrapTable data={dataProvider} stripe hover>
                     <TableHeaderColumn 
                         isKey width="70" 
