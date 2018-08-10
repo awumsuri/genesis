@@ -10,7 +10,7 @@ export const parseCSV = (rawData) => {
             {
                 ...accum,
                 [curr]: parse(dataArray[index]),
-                id: dataIndex
+                id: dataIndex + 1
             }            
         ), {})
     })
