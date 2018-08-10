@@ -1,4 +1,4 @@
-function filterString (a, b) {
+function sortString (a, b) {
     if (a[this.sortField].toLowerCase() < b[this.sortField].toLowerCase()) {
         return -1
     }
@@ -10,7 +10,7 @@ function filterString (a, b) {
     return 0
 }
 
-function filter (a, b) {
+function sortNumber (a, b) {
     if (a[this.sortField] < b[this.sortField]) {
         return -1
     }
@@ -22,4 +22,4 @@ function filter (a, b) {
     return 0
 }
 
-export default { filter, filterString}
+export default { sortString, sortNumber }

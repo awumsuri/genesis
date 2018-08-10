@@ -10,6 +10,7 @@ const Menu = (props) => (
             className="filters"
             placeholder="Filters"
             options={props.options}
+            onChange={props.onFilterChange}
         >
             
         </Select>
