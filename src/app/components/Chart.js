@@ -57,7 +57,7 @@ class Chart extends PureComponent {
         if (searchTerm.length < 3) return
 
         searchTerm = searchTerm.toLowerCase()
-        this.data = this.data.filter(record => Filter("SearchTerm")(record, searchTerm))
+        this.data = this.data.filter(record => Filter("SearchTerm")(record, searchTerm, this.headings))
         this.showPage()             
     }
     
