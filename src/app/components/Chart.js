@@ -205,9 +205,9 @@ class Chart extends PureComponent {
                 {this.data && 
                 <Status 
                     dataProvider={dataProvider} 
-                    pages={this.data.length}
+                    records={this.data.length}
                     pageSize={this.pageSize}
-                    records={this.currentIndex}
+                    page={this.currentIndex}
                 />
                 }
                 <BootstrapTable data={dataProvider} stripe hover>
