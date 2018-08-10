@@ -14,13 +14,11 @@ function filters (filter) {
             return (record) => record.first.charAt(0) >= 'N' && record.first.charAt(0) <= 'Z'
         case "SearchTerm":
             return (record, searchTerm) => {
-                
-                const first = record.first.toLowerCase().indexOf(searchTerm) !== -1
-                const second = record.last.toLowerCase().indexOf(searchTerm) !== -1
-                const city = record.city.toLowerCase().indexOf(searchTerm) !== -1
-                const country = record.country.toLowerCase().indexOf(searchTerm) !== -1
+                const searchFields = ["first", "last", "city", "country"]
 
-                return first  || second || city || country
+                for (const field of searchFields) {
+                    if (record[field].toLowerCase().indexOf(searchTerm) !== -1 ) return true
+                }
             }
         default:
             return record => true

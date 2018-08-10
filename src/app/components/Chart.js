@@ -43,8 +43,8 @@ class Chart extends PureComponent {
                 {value: "2", label: "positive float"},
                 {value: "3", label: "high debt"}
             ]
-        }  
-
+        }
+        
         /* Menu ref ( Would have used redux to avoid this) */
         this.menu = React.createRef()         
     }
