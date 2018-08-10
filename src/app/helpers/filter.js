@@ -15,7 +15,7 @@ function filters (filter) {
         case "SearchTerm":
             return (record, searchTerm, searchFields) => {
                 for (const field of searchFields) {
-                    if (record[field].toLowerCase().indexOf(searchTerm) !== -1 ) return true
+                    return record[field].toLowerCase().indexOf(searchTerm) !== -1
                 }
             }
         default:
