@@ -34,9 +34,11 @@ class Menu extends PureComponent {
                 onSelect={e => props.onDataProviderChange(e)}
                 id="Dataprovider"
             >
-                <MenuItem eventKey="1">People</MenuItem>
-                <MenuItem eventKey="3">Address</MenuItem>
-                <MenuItem eventKey="2">Financial</MenuItem>
+            {
+                props.csv.map(
+                    (csv, index) => <MenuItem eventKey={index + 1}>{csv}</MenuItem>
+                )
+            }
             </SplitButton>
 
             <SplitButton 

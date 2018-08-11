@@ -8,8 +8,10 @@
 }
 
 .page-btn Button {
-  width: 70px;
-  margin: 5px;
+  margin: 25px;
+  margin-top: -40px;
+  height: 40px;
+  width: 40px;
 }
 
 .menu {
@@ -46,5 +48,5 @@
 .displayed-records {
   font-size: 15px;
   font-weight: bold;
-  
+
 }

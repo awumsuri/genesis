@@ -7,6 +7,8 @@ import Sort from '../helpers/sort'
 import Filter from '../helpers/filter'
 import Status from './Status';
 
+const CSV = ["People", "Finances", "Large"]
+
 class Chart extends PureComponent {
 
     constructor() {
@@ -89,13 +91,13 @@ class Chart extends PureComponent {
 
     onDataProviderChange(key) {
         switch(key) {
-            case "1":
+            case 1:
                 this.loadData("people.csv")
                 break
-            case "2":
+            case 2:
                 this.loadData("numbers.csv")
                 break
-            case "3":
+            case 3:
                 this.loadData("large.csv")
                 break
             default: 
@@ -201,6 +203,7 @@ class Chart extends PureComponent {
                     onFilterChange={this.onFilterChange}
                     onSearch={this.onSearch}
                     onClearSearch={this.onClearSearch}
+                    csv={CSV}
                     type={this.type}
                 />
                 {this.data && 
@@ -211,6 +214,7 @@ class Chart extends PureComponent {
                     page={this.currentIndex}
                 />
                 }
+                <Page onClick={this.onClickPageNav} />
                 <BootstrapTable data={dataProvider} stripe hover>
                     <TableHeaderColumn 
                         isKey width="70" 
@@ -225,7 +229,6 @@ class Chart extends PureComponent {
                         )
                     }
                 </BootstrapTable>
-                <Page onClick={this.onClickPageNav} />
             </div>
         );
     }
