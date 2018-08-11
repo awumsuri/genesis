@@ -75,9 +75,8 @@ class Chart extends PureComponent {
         }
 
         this.data = filters.reduce((accum, filter) => {
-            accum = this.data.filter(record => Filter(filter.label)(record))
-            this.data = accum
-            return accum
+            this.data = this.data.filter(record => Filter(filter.label)(record))
+            return this.data
         }, []) 
 
         this.showPage()
@@ -95,6 +94,9 @@ class Chart extends PureComponent {
                 break
             case "2":
                 this.loadData("numbers.csv")
+                break
+            case "3":
+                this.loadData("large.csv")
                 break
             default: 
                 break;

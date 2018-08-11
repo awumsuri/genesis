@@ -30,11 +30,12 @@ class Menu extends PureComponent {
             <SplitButton 
                 title="Data Provider" 
                 bsStyle="info" 
-                key="2" 
+                key="2"
                 onSelect={e => props.onDataProviderChange(e)}
                 id="Dataprovider"
             >
                 <MenuItem eventKey="1">People</MenuItem>
+                <MenuItem eventKey="3">Address</MenuItem>
                 <MenuItem eventKey="2">Financial</MenuItem>
             </SplitButton>
 

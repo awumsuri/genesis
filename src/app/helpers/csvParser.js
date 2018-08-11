@@ -18,7 +18,7 @@ export const parseCSV = (rawData) => {
     return {
         parsedData, 
         headings,
-        type: typeof parsedData[0][headings[0]]
+        type: typeof parsedData[1][headings[1]]
     }
 }
 
