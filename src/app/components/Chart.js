@@ -7,7 +7,7 @@ import Sort from '../helpers/sort'
 import Filter from '../helpers/filter'
 import Status from './Status';
 
-const CSV = ["People", "Finances", "Large"]
+const CSV = ["People", "Finances"]
 
 class Chart extends PureComponent {
 
